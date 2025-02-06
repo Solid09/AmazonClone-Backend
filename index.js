@@ -4,7 +4,6 @@ const routes = require("./routes");
 const reqRateLimiter = require("./middleware/reqRateLimit.js");
 const cors = require("cors");
 const mongoose = require("mongoose");
-const https = require("https");
 const fs = require("fs");
 const path = require("path");
 const cookieParser = require("cookie-parser");
@@ -15,11 +14,6 @@ const app = express();
 const allowedOrigins = {
   origin: ["https://localhost:5173"],
   credentials: true,
-};
-
-const tlsOptions = {
-  key: fs.readFileSync(path.join(__dirname, "localhost-key.pem")),
-  cert: fs.readFileSync(path.join(__dirname, "localhost.pem")),
 };
 
 app.use(express.json());
@@ -38,23 +32,6 @@ mongoose
     process.exit(1);
   });
 
-https
-  .createServer(tlsOptions, app)
-  .listen(process.env.PORT, () => {
-    console.log("Server Started!");
-  })
-  .on("error", (err) => {
-    console.log("Error starting server: " + err);
-    process.exit(1);
-  });
-
-process.on("SIGINT", async () => {
-  try {
-    await mongoose.connection.close();
-    console.log("MongoDB connection closed.");
-    process.exit(0);
-  } catch (err) {
-    console.error("Error closing MongoDB connection:", err);
-    process.exit(1);
-  }
+app.listen(process.env.PORT, () => {
+  console.log(`Server is running on port ${process.env.PORT}`);
 });
