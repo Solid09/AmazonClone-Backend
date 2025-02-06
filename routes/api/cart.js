@@ -1,10 +1,11 @@
 const router = require("express").Router();
 const CartItem = require("../../models/cartItem.js");
 const { verifyToken } = require("../../middleware/auth.js");
+const { default: mongoose } = require("mongoose");
 
 router.get("/", verifyToken, async (req, res) => {
   try {
-    console.log("Request made to /api/cart");
+    console.log("Get request made to /api/cart");
 
     const cart = await CartItem.find({ user: req.user.userId });
 
@@ -22,6 +23,7 @@ router.post(
   verifyToken,
   async (req, res) => {
     try {
+      console.log("Post request made to /api/cart");
       const { cartItem } = req.body;
 
       if (!cartItem) {
@@ -43,7 +45,7 @@ router.post(
 
       return res
         .status(200)
-        .json({ success: true, message: "Cart item added!" });
+        .json({ success: true, message: "Cart item added!", cartItem: newCartItem });
     } catch (err) {
       return res.status(500).json({
         message: "Something went wrong, please try again later",
@@ -55,8 +57,9 @@ router.post(
 
 router.delete("/:id", verifyToken, async (req, res) => {
   try {
+    console.log("Delete request made to /api/cart/:id");
     const item = await CartItem.deleteOne({
-      _id: req.params.id,
+      _id: new mongoose.Types.ObjectId(req.params.id),
       user: req.user.userId,
     });
     if(item.deletedCount === 0) {
@@ -71,6 +74,7 @@ router.delete("/:id", verifyToken, async (req, res) => {
       message: "Cart item deleted!",
     });
   } catch (err) {
+    console.log(err.message)
     return res.status(500).json({
       message: "Something went wrong, please try again later",
       error: err.message,
@@ -83,6 +87,7 @@ router.patch(
   verifyToken,
   async (req, res) => {
     try {
+      console.log("Patch request made to /api/cart/:id");
       const { cartItem } = req.body;
       if (!cartItem) {
         return res

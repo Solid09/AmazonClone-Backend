@@ -20,7 +20,7 @@ router.post('/upload/image', upload.single('pfImage'),async (req, res) => {
          return res.status(400).json({ success: false, message: "No image data!" });
       }
 
-      const imageUrl = `http://localhost:5000/${req.file.filename}`;
+      const imageUrl = `https://localhost:3000/uploads/${req.file.filename}`;
       
 
       return res.status(200).json({ success: true, message: "Image uploaded!", imageUrl: imageUrl });

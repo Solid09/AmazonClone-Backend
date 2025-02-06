@@ -48,7 +48,7 @@ router.post("/register", async (req, res) => {
 
     return res
       .status(200)
-      .json({ success: true, message: "User Created!", token: token });
+      .json({ success: true, message: "User Created!", token: token, userId: _user._id });
   } catch (err) {
     return res.status(500).json({
       message: "Something went wrong, please try again later",
@@ -129,6 +129,7 @@ router.post("/login", async (req, res) => {
       return res.status(200).json({
         success: true,
         token: token,
+        userId: existingUser._id,
         message: "Logged in successfully!",
       });
     }
