@@ -12,7 +12,7 @@ require("dotenv").config();
 const app = express();
 
 const allowedOrigins = {
-  origin: ["https://amazonclone99999.netlify.app"],
+  origin: "https://amazonclone99999.netlify.app/",
   credentials: true,
 };
 
