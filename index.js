@@ -24,7 +24,8 @@ const allowedOrigins = {
 app.set('trust proxy', 1); // Trust the first proxy (Heroku's proxy)
 app.use(express.json());
 app.use(helmet());
-//app.use(cors(allowedOrigins));
+app.use(cors(allowedOrigins));
+app.options('*', cors());
 app.use(cookieParser());
 app.use(reqRateLimiter);
 app.use('/uploads', express.static('uploads'));
