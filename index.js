@@ -16,14 +16,15 @@ app.use((req, res, next) => {
   next();
 });
 
-// const allowedOrigins = {
-//   origin: "https://amazonclone99999.netlify.app/",
-//   credentials: true,
-// };
+const allowedOrigins = {
+  origin: "https://amazonclone99999.netlify.app/",
+  credentials: true,
+};
 
+app.set('trust proxy', 1); // Trust the first proxy (Heroku's proxy)
 app.use(express.json());
 app.use(helmet());
-//app.use(cors(allowedOrigins));
+app.use(cors(allowedOrigins));
 app.use(cookieParser());
 app.use(reqRateLimiter);
 app.use('/uploads', express.static('uploads'));
