@@ -17,7 +17,7 @@ app.use((req, res, next) => {
 });
 
 const allowedOrigins = {
-  origin: "https://amazonclone99999.netlify.app/",
+  origin: "https://amazonclone99999.netlify.app",
   credentials: true,
 };
 
