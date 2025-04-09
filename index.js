@@ -11,14 +11,19 @@ require("dotenv").config();
 
 const app = express();
 
-const allowedOrigins = {
-  origin: "https://amazonclone99999.netlify.app/",
-  credentials: true,
-};
+app.use((req, res, next) => {
+  console.log(`[${req.method}] ${req.path} from origin: ${req.headers.origin}`);
+  next();
+});
+
+// const allowedOrigins = {
+//   origin: "https://amazonclone99999.netlify.app/",
+//   credentials: true,
+// };
 
 app.use(express.json());
 app.use(helmet());
-app.use(cors(allowedOrigins));
+//app.use(cors(allowedOrigins));
 app.use(cookieParser());
 app.use(reqRateLimiter);
 app.use('/uploads', express.static('uploads'));
